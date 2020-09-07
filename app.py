@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 import requests
+import config
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -25,7 +26,7 @@ def index():
     cities = City.query.all()
     print(cities)
 
-    apikey = '7346aed032efee7291d5370de0809643'
+    apikey = config.API_KEY
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={}'
 
     weather_data = []
