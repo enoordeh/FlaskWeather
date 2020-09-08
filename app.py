@@ -2,14 +2,15 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 import requests
 import config
+import os
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weather.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = config.SECRET_KEY
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
-apikey = config.API_KEY
+apikey = os.environ.get('API_KEY')
 db = SQLAlchemy(app)
 
 class City(db.Model):
@@ -76,4 +77,7 @@ def delete_city(name):
 
     flash(f'Successfully deleted {city.name}', 'success')
     return redirect(url_for('index_get'))
+
+if __name__ == "__main__":
+    app.run()
 
